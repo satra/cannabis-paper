@@ -133,7 +133,7 @@ _Note that the path the containers and installations will need to be changed dep
 
 * Group level: Run the following jupyter notebook top to bottom:
   * Set _task=_ in the block that loops through all relevant participants to the task you want to analyze
-    * this happens in 3 locations in this script: for the group-wise, the across groups at baseline, and the across timepoints of the MCC group analysis
+    * this happens in 4 locations in this script: for the group-wise, the across groups at baseline, the across timepoints of the MCC group analysis, and the change score model focusing on changes in cannabis frequency
   * Note that you can use commenting to make modeling decisions, eg. outlier and covariate selection
   * _analysis/task_analysis_volume/group_level_analysis_vol.ipynb_
     * this will save the effect size and stat maps per group/session/task at _../../../derivatives/task_analysis_volume/group_level/group-{group}/ses-{ses}/task-{task}_ to be used by the fsleyes visualization
@@ -155,7 +155,7 @@ _Note that the path the containers and installations will need to be changed dep
 
 * Group level: Run the following jupyter notebook top to bottom:
   * Set _task=_ in the block that loops through all relevant participants to the task you want to analyze
-    * this happens in 3 locations in this script: for the group-wise, the across groups at baseline, and the across timepoints of the MCC group analysis
+    * this happens in 4 locations in this script: for the group-wise, the across groups at baseline, the across timepoints of the MCC group analysis, and the change score model focusing on changes in cannabis frequency
   * Note that you can use commenting to make modeling decisions, eg. outlier and covariate selection
   * _analysis/task_analysis_surface/group_level_analysis_surf.ipynb_
       * this will save the left/right hemispheres and flat maps as well as the coronal display per group/session/task at _../../../derivatives/task_analysis_surface/visualization/raw_indiv_figures_ to be used by the final pillow visualization
