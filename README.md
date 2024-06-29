@@ -1,4 +1,4 @@
-# Impact of year-long cannabis use for medical symptoms on brain activation during cognitive processes
+# Association of year-long cannabis use for medical symptoms with brain activation during cognitive processes
 
 Debbie Burdinski, Alisha Kodibagkar, Kevin Potter, Randi Schuster, A. Eden Evins, Jodi Gilman*, Satrajit Ghosh*
 
@@ -19,15 +19,15 @@ Code directory:
 * Structured like this GitHub repository
 * Code is to be executed inside the folder in which a given script is located (to use relative paths)
 * Contains:
-  * _analysis_ directory with code for demographic summaries, behavioral analysis, HCP-based smoothing, first, second and group linear modeling, and figure generation
+  * _analysis_ directory with code for demographic summaries, cannabis metrics, behavioral analysis, HCP-based smoothing, first, second and group linear modeling, and figure generation
   * _environment_setup_ directory with yml files for the needed python environments for analysis and visualization
   * _preprocessing_ directory with code for heudiconv, fmriprep, events file population and mriqc
 
 Derivatives directory:
 * Saves outputs from preprocessing and analyses and the final visualizations
   * Contains:
-    * _behavioral_ directory with results from the nback behavioral analysis
-    * _demographics_ directory with demographics and cannabis characteristics by group tables
+    * _behavioral_ directory with prepared data for the nback behavioral analysis
+    * _demographics_ directory with demographics and cannabis characteristics by group tables and with prepared data for the cannabis metrics comparison
     * _HCP_smoothing_ directory with smoothed cifti files using the HCP pipeline's tool
     * _mriqc_ directory with mriqc metrics by scan
     * _ses-1year_ directory with fmriprep outputs from the one-year timepoint scans
@@ -47,6 +47,7 @@ Derivatives directory:
 3. Install the following:
   * singularity: Singularity 3.9.5
   * hcp tools: Connectome Workbench v1.2.3
+4. Install the necessary R packages noted in the R scripts
 
 _Note that the path the containers and installations will need to be changed depending on where you keep yours!_
 
@@ -104,20 +105,31 @@ _Note that the path the containers and installations will need to be changed dep
 1. Demographics and cannabis characteristics by group table generation
 
 * Run the following jupyter notebooks top to bottom:
-  * _analysis/demographics/cannabis_table.ipynb_
+  * _analysis/demographics/cannabis_table_and_data_preparation.ipynb_
   * _analysis/demographics/demographics_table.ipynb_
-* Run the following R script for additional statistical tests not covered in the tableone python package
-  * _analysis/demographics/fisher_exact_tests.R_
+  * _analysis/demographics/demographics_comparison.ipynb_
+* Run the following R scripts top to bottom:
+  * _analysis/demographics/demographics_fisher_exact_tests.R_
+  * _analysis/demographics/cannabis_comparison.R_
 
 
-2. Cifti smoothing using hcp tools 
+2. Behavioral Analysis
+
+* Run the following jupyter notebooks top to bottom:
+  * _analysis/behavioral_analysis/nback_behavioral_data_preparation.ipynb_
+* Run the following R scripts top to bottom:
+  * _analysis/behavioral_analysis/nback_behavioral_comparison.R_
+  * _analysis/behavioral_analysis/SST_behavioral_comparison.R_
+
+
+3. Cifti smoothing using hcp tools 
 
 * Run the following using SLURM job scheduler:
   * _analysis/HCP_smoothing/run_HCP_smoothing_for_tasks.sh_
     * this will call for each task: _analysis/HCP_smoothing/HCP_smoothing_by_tasks.sh_
 
 
-3. First, second (for mid and sst tasks given they have two runs) and group level modeling for nifti (volumetric) data
+4. First, second (for mid and sst tasks given they have two runs) and group level modeling for nifti (volumetric) data
 
 * First level: Run the following using SLURM job scheduler:
   * Replace {task} with the task that you want to run the first level model for
@@ -139,7 +151,7 @@ _Note that the path the containers and installations will need to be changed dep
     * this will save the effect size and stat maps per group/session/task at _../../../derivatives/task_analysis_volume/group_level/group-{group}/ses-{ses}/task-{task}_ to be used by the fsleyes visualization
 
 
-4. First, second (for mid and sst tasks given they have two runs) and group level modeling for cifti (grayordinate) data
+5. First, second (for mid and sst tasks given they have two runs) and group level modeling for cifti (grayordinate) data
 
 * First level: Run the following using SLURM job scheduler:
   * Replace {task} with the task that you want to run the first level model for
@@ -161,7 +173,7 @@ _Note that the path the containers and installations will need to be changed dep
       * this will save the left/right hemispheres and flat maps as well as the coronal display per group/session/task at _../../../derivatives/task_analysis_surface/visualization/raw_indiv_figures_ to be used by the final pillow visualization
 
 
-5. fsleyes visualization for nifti/volumetric results
+6. fsleyes visualization for nifti/volumetric results
 
 * Run the following jupyter notebook in order:
   * Set _task=_ in the block that loops through all relevant participants to the task you want to visualize
@@ -169,7 +181,7 @@ _Note that the path the containers and installations will need to be changed dep
     * this will save the fsleyes visualizations per group/session/task at _../../../derivatives/task_analysis_volume/visualization/fsleyes_indiv_figures_ to be used by pillow for figure generation
 
 
-6. Figure generation using fsleyes outputs and pillow for nifti/volumetric results
+7. Figure generation using fsleyes outputs and pillow for nifti/volumetric results
 
 * Run the following jupyter notebook top to bottom:
   * Set _task=_ in the block that loops through all relevant participants to the task you want to visualize
@@ -178,7 +190,7 @@ _Note that the path the containers and installations will need to be changed dep
     * this will save the nifti/volumetric figures per task at _../../../derivatives/task_analysis_volume/visualization/complete_figures_ to be used by pillow for panel figure generation 
 
 
-7. Figure generation using nilearn and pillow for cifti/grayordinate results
+8. Figure generation using nilearn and pillow for cifti/grayordinate results
 
 * Run the following jupyter notebook top to bottom:
   * Set _task=_ in the block that loops through all relevant participants to the task you want to visualize
@@ -187,7 +199,7 @@ _Note that the path the containers and installations will need to be changed dep
     * this will save the cifti/grayordinate figures per task at _../../../derivatives/task_analysis_surface/visualization/complete_figures_ to be used by pillow for panel figure generation 
 
 
-8. Panel figure generation using pillow for the complete results
+9. Panel figure generation using pillow for the complete results
 
 * Run the following jupyter notebook top to bottom:
   * Set _task=_ in the block that loops through all relevant participants to the task you want to visualize
